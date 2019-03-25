@@ -3,12 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var exec = require('child_process').exec;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var testRouter = require('./routes/test');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,9 +27,17 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.post('/api/*', function(req, res) {
+  console.log('post api',req);
+  exec('mspaint');
+
+  res.send({data:1024});
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/test', testRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
